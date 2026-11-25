@@ -1,0 +1,7 @@
+node_modules/
+dist/
+media/webview.js
+preview/
+.tmp/
+*.vsix
+.DS_Store

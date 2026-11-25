@@ -1,0 +1,260 @@
+{
+  "name": "eye-guard",
+  "displayName": "Eye Guard — Bảo vệ mắt",
+  "description": "Nhắc nhìn xa 20-20-20, uống nước và đứng dậy đi bộ bằng bảng nhắc nhở tối giản, tuỳ chọn hiệu ứng pixel art (pixelfx). Mọi thông số và từng chức năng đều chỉnh được trong Settings.",
+  "version": "1.1.0",
+  "publisher": "eye-guard",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "eye",
+    "eyes",
+    "20-20-20",
+    "break",
+    "reminder",
+    "health",
+    "water",
+    "walk",
+    "pixel art"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "icon": "media/icon.png",
+  "contributes": {
+    "commands": [
+      {
+        "command": "eyeGuard.menu",
+        "title": "Menu",
+        "category": "Eye Guard"
+      },
+      {
+        "command": "eyeGuard.startEyeBreak",
+        "title": "Bắt đầu nghỉ mắt 20-20-20",
+        "category": "Eye Guard"
+      },
+      {
+        "command": "eyeGuard.remindWater",
+        "title": "Nhắc uống nước ngay",
+        "category": "Eye Guard"
+      },
+      {
+        "command": "eyeGuard.remindWalk",
+        "title": "Nhắc đi bộ / đi vệ sinh",
+        "category": "Eye Guard"
+      },
+      {
+        "command": "eyeGuard.pause",
+        "title": "Tạm dừng nhắc nhở",
+        "category": "Eye Guard"
+      },
+      {
+        "command": "eyeGuard.resume",
+        "title": "Tiếp tục nhắc nhở",
+        "category": "Eye Guard"
+      },
+      {
+        "command": "eyeGuard.toggle",
+        "title": "Bật / tắt Eye Guard",
+        "category": "Eye Guard"
+      },
+      {
+        "command": "eyeGuard.openSettings",
+        "title": "Mở cài đặt",
+        "category": "Eye Guard"
+      },
+      {
+        "command": "eyeGuard.previewEffect",
+        "title": "Xem thử hiệu ứng",
+        "category": "Eye Guard"
+      }
+    ],
+    "configuration": {
+      "title": "Eye Guard",
+      "properties": {
+        "eyeGuard.enabled": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Bật/tắt toàn bộ tiện ích. Tắt ở đây sẽ dừng mọi nhắc nhở."
+        },
+        "eyeGuard.startPaused": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Khởi động VS Code ở trạng thái tạm dừng. Bấm vào thanh trạng thái để bật lại."
+        },
+        "eyeGuard.onlyWhenFocused": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Chỉ nhắc khi cửa sổ VS Code đang được chọn (tránh nhắc khi bạn đã rời máy)."
+        },
+        "eyeGuard.sound": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Phát chuông nhẹ khi mở và khi hoàn tất nhắc nhở (dùng WebAudio, không cần tệp âm thanh)."
+        },
+        "eyeGuard.focusOnReminder": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Tự chuyển focus sang cửa sổ nhắc nhở khi mở."
+        },
+        "eyeGuard.appearance": {
+          "type": "string",
+          "enum": [
+            "clean",
+            "pixel"
+          ],
+          "enumDescriptions": [
+            "Bảng nhắc nhở tối giản, theo màu giao diện VS Code (mặc định).",
+            "Bảng pixel art 160×120 với hiệu ứng động từ pixelfx."
+          ],
+          "default": "clean",
+          "markdownDescription": "Giao diện của bảng nhắc nhở. Chọn `pixel` nếu bạn muốn xem hiệu ứng pixel art; các mục **Hiệu ứng** bên dưới chỉ áp dụng cho giao diện này."
+        },
+        "eyeGuard.popupStyle": {
+          "type": "string",
+          "enum": [
+            "panel",
+            "notification"
+          ],
+          "enumDescriptions": [
+            "Mở bảng nhắc nhở ở giữa màn hình.",
+            "Chỉ hiện thông báo nhỏ ở góc màn hình (nhắc uống nước / đi bộ)."
+          ],
+          "default": "panel",
+          "markdownDescription": "Kiểu hiển thị cho nhắc uống nước và đi bộ. Nhắc nghỉ mắt luôn dùng bảng nhắc nhở vì cần đếm ngược."
+        },
+        "eyeGuard.snoozeMinutes": {
+          "type": "number",
+          "default": 5,
+          "minimum": 1,
+          "maximum": 120,
+          "markdownDescription": "Số phút hoãn khi bấm **Nhắc lại sau …** trên bảng nhắc nhở."
+        },
+        "eyeGuard.eyeBreak.enabled": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Bật nhắc **20-20-20**: cứ mỗi 20 phút, nhìn ra xa 6 m (20 feet) trong 20 giây."
+        },
+        "eyeGuard.eyeBreak.intervalMinutes": {
+          "type": "number",
+          "default": 20,
+          "minimum": 1,
+          "maximum": 480,
+          "markdownDescription": "Số phút giữa hai lần nghỉ mắt."
+        },
+        "eyeGuard.eyeBreak.durationSeconds": {
+          "type": "number",
+          "default": 20,
+          "minimum": 5,
+          "maximum": 300,
+          "markdownDescription": "Số giây của mỗi lần nghỉ mắt (mặc định 20)."
+        },
+        "eyeGuard.eyeBreak.effect": {
+          "type": "string",
+          "enum": [
+            "eyeball",
+            "halo",
+            "heal"
+          ],
+          "enumDescriptions": [
+            "Nhãn cầu pixel art đảo mắt và chớp (pixelfx: Eyeball).",
+            "Vòng hào quang vàng trên đầu nhân vật (pixelfx: Halo).",
+            "Vòng sáng chữa lành và trái tim bay lên (pixelfx: Heal)."
+          ],
+          "default": "eyeball",
+          "markdownDescription": "Hiệu ứng pixel art cho lần nghỉ mắt (chỉ dùng khi `eyeGuard.appearance` = `pixel`)."
+        },
+        "eyeGuard.eyeBreak.message": {
+          "type": "string",
+          "default": "Nhìn ra xa 6 mét (20 feet) trong 20 giây để mắt được nghỉ.",
+          "markdownDescription": "Lời nhắc hiển thị trên bảng nghỉ mắt."
+        },
+        "eyeGuard.water.enabled": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Bật nhắc **uống nước** định kỳ."
+        },
+        "eyeGuard.water.intervalMinutes": {
+          "type": "number",
+          "default": 45,
+          "minimum": 1,
+          "maximum": 480,
+          "markdownDescription": "Số phút giữa hai lần nhắc uống nước."
+        },
+        "eyeGuard.water.effect": {
+          "type": "string",
+          "enum": [
+            "fountain",
+            "potion",
+            "water-orb"
+          ],
+          "enumDescriptions": [
+            "Đài phun nước pixel art (pixelfx: Fountain).",
+            "Bình thuốc phát sáng (pixelfx: Potion).",
+            "Quả cầu nước lơ lửng (pixelfx: Water orb)."
+          ],
+          "default": "water-orb",
+          "markdownDescription": "Hiệu ứng pixel art cho lời nhắc uống nước (chỉ dùng khi `eyeGuard.appearance` = `pixel`)."
+        },
+        "eyeGuard.water.message": {
+          "type": "string",
+          "default": "Uống một ly nước nào! Cơ thể và đôi mắt đều cần nước.",
+          "markdownDescription": "Lời nhắc uống nước."
+        },
+        "eyeGuard.walk.enabled": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Bật nhắc **đứng dậy đi bộ / đi vệ sinh** định kỳ."
+        },
+        "eyeGuard.walk.intervalMinutes": {
+          "type": "number",
+          "default": 90,
+          "minimum": 1,
+          "maximum": 480,
+          "markdownDescription": "Số phút giữa hai lần nhắc đi bộ."
+        },
+        "eyeGuard.walk.effect": {
+          "type": "string",
+          "enum": [
+            "frog",
+            "bird",
+            "butterfly"
+          ],
+          "enumDescriptions": [
+            "Chú ếch nhảy bắt ruồi (pixelfx: Frog).",
+            "Chim sẻ vỗ cánh (pixelfx: Bird).",
+            "Bướm lượn lấp lánh (pixelfx: Butterfly)."
+          ],
+          "default": "bird",
+          "markdownDescription": "Hiệu ứng pixel art cho lời nhắc đi bộ (chỉ dùng khi `eyeGuard.appearance` = `pixel`)."
+        },
+        "eyeGuard.walk.message": {
+          "type": "string",
+          "default": "Đứng dậy, đi lại vài phút hoặc đi vệ sinh nhé. Ngồi lâu không tốt cho lưng và mắt.",
+          "markdownDescription": "Lời nhắc đi bộ / đi vệ sinh."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/scheduler.test.mjs && node scripts/extension.test.mjs && node scripts/smoke.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "preview": "node scripts/preview.mjs",
+    "package": "node esbuild.mjs && vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.25.10",
+    "typescript": "^5.6.3"
+  }
+}
