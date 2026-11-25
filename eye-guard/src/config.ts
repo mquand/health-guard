@@ -30,7 +30,7 @@ export interface EyeGuardConfig {
   walk: FeatureConfig;
 }
 
-export const CONFIG_SECTION = "eyeGuard";
+export const CONFIG_SECTION = "healthGuard";
 
 /** Read the whole configuration in one go. Defaults mirror package.json. */
 export function readConfig(): EyeGuardConfig {
@@ -76,7 +76,7 @@ export function readConfig(): EyeGuardConfig {
   };
 }
 
-/** Called whenever any `eyeGuard.*` setting changes. */
+/** Called whenever any `healthGuard.*` setting changes. */
 export function onConfigChanged(listener: () => void): vscode.Disposable {
   return vscode.workspace.onDidChangeConfiguration((e) => {
     if (e.affectsConfiguration(CONFIG_SECTION)) {

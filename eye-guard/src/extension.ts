@@ -11,7 +11,7 @@ import { type PauseState, Scheduler } from "./scheduler";
 import { checkForUpdates } from "./updater";
 import { ReminderPanel, type PanelHandlers, type ReminderPayload } from "./panel";
 
-const PAUSE_STATE_KEY = "eyeGuard.pauseState";
+const PAUSE_STATE_KEY = "healthGuard.pauseState";
 const CLOSE_AFTER_DONE_MS = 2600;
 const PAUSE_MENU_MINUTES = 30;
 
@@ -70,8 +70,8 @@ class EyeGuardController implements vscode.Disposable {
   constructor(private readonly context: vscode.ExtensionContext) {
     this.config = readConfig();
     this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-    this.status.name = "Eye Guard";
-    this.status.command = "eyeGuard.menu";
+    this.status.name = "Health Guard";
+    this.status.command = "healthGuard.menu";
 
     this.scheduler = new Scheduler(
       (kind) => this.onDue(kind),
@@ -242,7 +242,7 @@ class EyeGuardController implements vscode.Disposable {
       seed: Math.floor(Math.random() * 1000) + 1,
       paused: this.scheduler.isPaused,
       appearance: config.appearance,
-      footer: "Eye Guard · chỉnh thời gian, hiệu ứng và bật/tắt từng mục trong Settings",
+      footer: "Health Guard · chỉnh thời gian, hiệu ứng và bật/tắt từng mục trong Settings",
       snoozeMinutes: preview ? 0 : config.snoozeMinutes,
       durationMs: 0,
     };
@@ -328,8 +328,8 @@ class EyeGuardController implements vscode.Disposable {
     const config = this.config;
 
     if (!config.enabled) {
-      this.status.text = "$(circle-slash) Eye Guard: đang tắt";
-      this.status.tooltip = "Eye Guard đang tắt. Bấm để mở menu và bật lại.";
+      this.status.text = "$(circle-slash) Health Guard: đang tắt";
+      this.status.tooltip = "Health Guard đang tắt. Bấm để mở menu và bật lại.";
       this.status.backgroundColor = undefined;
       return;
     }
@@ -338,7 +338,7 @@ class EyeGuardController implements vscode.Disposable {
       const remaining = this.scheduler.pauseRemainingMs;
       this.status.text =
         remaining === Number.POSITIVE_INFINITY
-          ? "$(debug-pause) Eye Guard: tạm dừng"
+          ? "$(debug-pause) Health Guard: tạm dừng"
           : `$(debug-pause) Tạm dừng · ${formatClock(remaining)}`;
       this.status.tooltip = "Nhắc nhở đang tạm dừng. Bấm để tiếp tục hoặc mở cài đặt.";
       this.status.backgroundColor = new vscode.ThemeColor("statusBarItem.warningBackground");
@@ -348,7 +348,7 @@ class EyeGuardController implements vscode.Disposable {
     this.status.backgroundColor = undefined;
     const next = this.scheduler.next();
     if (!next) {
-      this.status.text = "$(eye) Eye Guard";
+      this.status.text = "$(eye) Health Guard";
       this.status.tooltip = "Chưa bật chức năng nhắc nhở nào. Bấm để mở menu.";
       return;
     }
@@ -356,7 +356,7 @@ class EyeGuardController implements vscode.Disposable {
     const remaining = Math.max(0, next.nextAt - Date.now());
     this.status.text = `$(${KIND_ICON[next.kind]}) ${KIND_LABEL[next.kind]} · ${formatClock(remaining)}`;
 
-    const lines = ["**Eye Guard**", ""];
+    const lines = ["**Health Guard**", ""];
     for (const kind of ["eye", "water", "walk"] as ReminderKind[]) {
       const feature = featureOf(config, kind);
       if (!feature.enabled) continue;
@@ -365,7 +365,7 @@ class EyeGuardController implements vscode.Disposable {
       const extra = kind === "eye" ? ` · nghỉ ${config.eyeBreak.durationSeconds}s` : "";
       lines.push(`- ${KIND_LABEL[kind]}: còn **${when}** (mỗi ${feature.intervalMinutes} phút${extra})`);
     }
-    lines.push("", "Bấm để mở menu Eye Guard.");
+    lines.push("", "Bấm để mở menu Health Guard.");
     this.status.tooltip = lines.join("\n");
   }
 
@@ -376,22 +376,22 @@ class EyeGuardController implements vscode.Disposable {
       this.disposables.push(vscode.commands.registerCommand(id, handler));
     };
 
-    register("eyeGuard.menu", () => this.showMenu());
-    register("eyeGuard.startEyeBreak", () => this.trigger("eye"));
-    register("eyeGuard.remindWater", () => this.trigger("water"));
-    register("eyeGuard.remindWalk", () => this.trigger("walk"));
-    register("eyeGuard.pause", () => this.pause(PAUSE_MENU_MINUTES));
-    register("eyeGuard.resume", () => this.resume());
-    register("eyeGuard.toggle", () => this.toggleEnabled());
-    register("eyeGuard.openSettings", () => this.openSettings());
-    register("eyeGuard.previewEffect", () => this.previewEffect());
-    register("eyeGuard.checkForUpdates", () => checkForUpdates(this.context, { manual: true }));
+    register("healthGuard.menu", () => this.showMenu());
+    register("healthGuard.startEyeBreak", () => this.trigger("eye"));
+    register("healthGuard.remindWater", () => this.trigger("water"));
+    register("healthGuard.remindWalk", () => this.trigger("walk"));
+    register("healthGuard.pause", () => this.pause(PAUSE_MENU_MINUTES));
+    register("healthGuard.resume", () => this.resume());
+    register("healthGuard.toggle", () => this.toggleEnabled());
+    register("healthGuard.openSettings", () => this.openSettings());
+    register("healthGuard.previewEffect", () => this.previewEffect());
+    register("healthGuard.checkForUpdates", () => checkForUpdates(this.context, { manual: true }));
   }
 
   private trigger(kind: ReminderKind): void {
     if (!this.config.enabled) {
       void vscode.window
-        .showWarningMessage("Eye Guard đang tắt. Bật lên để dùng nhắc nhở.", "Bật Eye Guard")
+        .showWarningMessage("Health Guard đang tắt. Bật lên để dùng nhắc nhở.", "Bật Health Guard")
         .then((choice) => {
           if (choice) void this.toggleEnabled();
         });
@@ -423,12 +423,12 @@ class EyeGuardController implements vscode.Disposable {
       .getConfiguration(CONFIG_SECTION)
       .update("enabled", enabled, vscode.ConfigurationTarget.Global);
     void vscode.window.showInformationMessage(
-      enabled ? "Eye Guard đã bật. Nhắc nhở sẽ chạy theo cài đặt của bạn." : "Eye Guard đã tắt."
+      enabled ? "Health Guard đã bật. Nhắc nhở sẽ chạy theo cài đặt của bạn." : "Health Guard đã tắt."
     );
   }
 
   private openSettings(): void {
-    void vscode.commands.executeCommand("workbench.action.openSettings", "eyeGuard");
+    void vscode.commands.executeCommand("workbench.action.openSettings", "healthGuard");
   }
 
   private async showMenu(): Promise<void> {
@@ -466,7 +466,7 @@ class EyeGuardController implements vscode.Disposable {
       }
     } else {
       items.push({
-        label: "$(check) Bật Eye Guard",
+        label: "$(check) Bật Health Guard",
         description: "đang tắt",
         run: () => this.toggleEnabled(),
       });
@@ -474,17 +474,17 @@ class EyeGuardController implements vscode.Disposable {
 
     items.push(
       { label: "Khác", kind: vscode.QuickPickItemKind.Separator },
-      { label: "$(settings-gear) Cài đặt Eye Guard", run: () => this.openSettings() },
+      { label: "$(settings-gear) Cài đặt Health Guard", run: () => this.openSettings() },
       { label: "$(cloud-download) Kiểm tra cập nhật", run: () => checkForUpdates(this.context, { manual: true }) },
       { label: "$(sparkle) Xem thử hiệu ứng pixel art", run: () => this.previewEffect() },
       {
-        label: config.enabled ? "$(circle-slash) Tắt Eye Guard" : "$(check) Bật Eye Guard",
+        label: config.enabled ? "$(circle-slash) Tắt Health Guard" : "$(check) Bật Health Guard",
         run: () => this.toggleEnabled(),
       }
     );
 
     const picked = await vscode.window.showQuickPick(items, {
-      title: "Eye Guard",
+      title: "Health Guard",
       placeHolder: paused
         ? "Đang tạm dừng — chọn một hành động"
         : "Bảo vệ mắt: 20-20-20 · uống nước · vận động",
@@ -502,7 +502,7 @@ class EyeGuardController implements vscode.Disposable {
     }));
 
     const picked = await vscode.window.showQuickPick(items, {
-      title: "Xem thử hiệu ứng — Eye Guard",
+      title: "Xem thử hiệu ứng — Health Guard",
       placeHolder: "Chọn một hiệu ứng pixel art (nguồn: patch-gg/pixelfx)",
       matchOnDetail: true,
     });

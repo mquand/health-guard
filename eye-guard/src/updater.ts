@@ -5,9 +5,9 @@ import * as path from "node:path";
 import { readConfig } from "./config";
 
 const GITHUB_REPO = "mquand/health-guard";
-const LAST_CHECK_KEY = "eyeGuard.lastUpdateCheck";
+const LAST_CHECK_KEY = "healthGuard.lastUpdateCheck";
 const CHECK_INTERVAL_MS = 24 * 60 * 60 * 1000;
-const USER_AGENT = "eye-guard-vscode-extension";
+const USER_AGENT = "health-guard-vscode-extension";
 
 interface GitHubRelease {
   tag_name?: string;
@@ -49,7 +49,7 @@ export async function checkForUpdates(
     if (compareSemver(latestVersion, currentVersion) <= 0) {
       if (manual) {
         void vscode.window.showInformationMessage(
-          `Eye Guard đang ở phiên bản mới nhất (v${currentVersion}).`
+          `Health Guard đang ở phiên bản mới nhất (v${currentVersion}).`
         );
       }
       return;
@@ -73,7 +73,7 @@ export async function checkForUpdates(
     }
 
     const choice = await vscode.window.showInformationMessage(
-      `Eye Guard có bản cập nhật mới v${latestVersion} (hiện tại: v${currentVersion}).`,
+      `Health Guard có bản cập nhật mới v${latestVersion} (hiện tại: v${currentVersion}).`,
       "Cập nhật ngay",
       "Xem chi tiết",
       "Để sau"
@@ -82,7 +82,7 @@ export async function checkForUpdates(
     if (choice === "Xem chi tiết" && release.html_url) {
       void vscode.env.openExternal(vscode.Uri.parse(release.html_url));
     } else if (choice === "Cập nhật ngay") {
-      await installVsix(vsix.browser_download_url, vsix.name ?? `eye-guard-${latestVersion}.vsix`, latestVersion);
+      await installVsix(vsix.browser_download_url, vsix.name ?? `health-guard-${latestVersion}.vsix`, latestVersion);
     }
   } catch (error) {
     if (manual) {
@@ -108,7 +108,7 @@ async function installVsix(downloadUrl: string, fileName: string, version: strin
   await vscode.window.withProgress(
     {
       location: vscode.ProgressLocation.Notification,
-      title: `Đang cập nhật Eye Guard lên v${version}…`,
+      title: `Đang cập nhật Health Guard lên v${version}…`,
       cancellable: false,
     },
     async (progress) => {
@@ -135,7 +135,7 @@ async function installVsix(downloadUrl: string, fileName: string, version: strin
       }
 
       const reload = await vscode.window.showInformationMessage(
-        `Đã cập nhật Eye Guard lên v${version}. Tải lại cửa sổ để áp dụng.`,
+        `Đã cập nhật Health Guard lên v${version}. Tải lại cửa sổ để áp dụng.`,
         "Khởi động lại ngay"
       );
       if (reload === "Khởi động lại ngay") {

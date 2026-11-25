@@ -1,158 +1,163 @@
-# Eye Guard — Bảo vệ mắt cho VS Code 👁
+# Health Guard — Eye Protection for VS Code 👁
 
-Một extension nhỏ gọn, nhắc bạn:
+[Tiếng Việt](README.vi.md) | **English**
 
-- **20-20-20** — cứ mỗi 20 phút, nhìn ra xa khoảng 6 m (20 feet) trong 20 giây, kèm **đếm ngược từng giây**.
-- **Uống nước** — nhắc bạn uống nước sau mỗi khoảng thời gian (mặc định 45 phút).
-- **Đi bộ / đi vệ sinh** — nhắc đứng dậy vận động (mặc định 90 phút).
+A small, lightweight extension that reminds you to:
 
-Bảng nhắc nhở mặc định **tối giản và theo màu giao diện VS Code** (sáng/tối đều hợp). Nếu muốn,
-bạn có thể đổi `eyeGuard.appearance` sang `pixel` để xem cảnh pixel art động vẽ bằng
-[pixelfx](https://github.com/patch-gg/pixelfx) (MIT).
+- **20-20-20** — every 20 minutes, look at something about 6 m (20 feet) away for 20 seconds, with a **per-second countdown**.
+- **Drink water** — reminds you to hydrate at a configurable interval (default 45 minutes).
+- **Stand up & walk** — reminds you to move around or take a bathroom break (default 90 minutes).
 
-Mọi thứ đều chỉnh được trong **Settings** và **bật/tắt riêng từng chức năng**.
+The reminder panel defaults to a **minimal design that follows your VS Code theme** (works in both light and dark mode). If you prefer, set `healthGuard.appearance` to `pixel` to see an animated pixel-art scene rendered with [pixelfx](https://github.com/patch-gg/pixelfx) (MIT).
+
+Everything is configurable in **Settings**, and each reminder type can be toggled independently.
+
+It also **checks GitHub Releases for updates** (at most once every 24 hours) and can install a new `.vsix` in-place — see `healthGuard.checkUpdates` and the `Health Guard: Kiểm tra cập nhật` command.
 
 ---
 
-## Cài đặt
+## Installation
 
-### Cách 1: cài từ file `.vsix` (nhanh nhất)
+### Option 1: Install from `.vsix` (fastest)
 
 ```bash
-code --install-extension eye-guard-1.1.1.vsix
+code --install-extension health-guard-1.1.1.vsix
 ```
 
-Hoặc mở VS Code → **Extensions** → dấu `…` → **Install from VSIX…** → chọn file.
+Or open VS Code → **Extensions** → `…` → **Install from VSIX…** → pick the file.
+The latest vsix is attached to each [GitHub Release](https://github.com/mquand/health-guard/releases).
 
-### Cách 2: chạy từ mã nguồn
+### Option 2: Run from source
 
 ```bash
-cd eye-guard
+cd health-guard
 npm install
 npm run build
 ```
 
-Mở thư mục này trong VS Code rồi bấm **F5** (Run Extension) để mở một cửa sổ thử nghiệm.
+Open this folder in VS Code and press **F5** (Run Extension) to open a test window.
 
 ---
 
-## Dùng hằng ngày
+## Daily use
 
-Sau khi cài, extension tự chạy khi mở VS Code. Ở **thanh trạng thái** (góc dưới bên trái) bạn sẽ thấy
-lời nhắc kế tiếp, ví dụ:
+Once installed, the extension runs automatically when VS Code starts. In the **status bar** (bottom-left) you'll see the next upcoming reminder, e.g.:
 
 ```
 👁 Nghỉ mắt · 12:34
 ```
 
-Bấm vào đó để mở menu nhanh:
+Click it to open the quick menu:
 
-| Mục | Việc |
+| Item | Action |
 | --- | --- |
-| Nghỉ mắt ngay | Mở bảng 20-20-20 và đếm ngược |
-| Nhắc uống nước ngay | Mở bảng uống nước |
-| Nhắc đi bộ / đi vệ sinh | Mở bảng vận động |
-| Tạm dừng 30 phút / đến khi bật lại | Nghỉ nhắc nhở khi họp, thuyết trình… |
-| Cài đặt Eye Guard | Mở Settings đã lọc sẵn |
-| Xem thử hiệu ứng pixel art | Xem trước 9 hiệu ứng (luôn mở ở giao diện pixel) |
+| Nghỉ mắt ngay | Opens the 20-20-20 panel with countdown |
+| Nhắc uống nước ngay | Opens the water panel |
+| Nhắc đi bộ / đi vệ sinh | Opens the movement panel |
+| Tạm dừng 30 phút / đến khi bật lại | Pause reminders for meetings, presentations… |
+| Cài đặt Health Guard | Opens filtered Settings |
+| Kiểm tra cập nhật | Manually check GitHub Releases for a new version |
+| Xem thử hiệu ứng pixel art | Preview all 9 effects (always in pixel mode) |
 
-Trên bảng nhắc nhở bạn có thể:
+On the reminder panel you can:
 
-- **Đã nghỉ xong / Đã uống nước / Đã đi bộ** — xác nhận và đóng.
-- **Nhắc lại sau N phút** — hoãn lần này (N chỉnh trong Settings, mặc định 5).
-- **Tạm dừng** — nút hình hai vạch ở góc phải, dừng nhắc nhở 30 phút.
-- **Cài đặt** — nút hình thanh trượt, mở Settings.
-- **Esc** — đóng bảng.
-
----
-
-## Giao diện
-
-- **`clean` (mặc định)** — thẻ nhắc nhở nhỏ, nền và chữ lấy từ theme VS Code, icon mắt / giọt nước /
-  người đi bộ vẽ bằng nét SVG. Bảng nghỉ mắt có số giây lớn và thanh tiến trình mảnh.
-- **`pixel`** — cảnh pixel art 160×120 với 9 hiệu ứng pixelfx, nền gradient + sao + bụi sáng.
-  Chọn trong Settings tại `eyeGuard.appearance`; lệnh **Xem thử hiệu ứng** luôn mở ở chế độ này.
+- **Đã nghỉ xong / Đã uống nước / Đã đi bộ** — confirm and close.
+- **Nhắc lại sau N phút** — snooze this one (N is configurable, default 5).
+- **Tạm dừng** — the two-bar icon at the top right pauses all reminders for 30 minutes.
+- **Cài đặt** — the sliders icon opens Settings.
+- **Esc** — close the panel.
 
 ---
 
-## Cài đặt (Settings → tìm `eyeGuard`)
+## Appearance
 
-| Khoá | Mặc định | Ý nghĩa |
+- **`clean` (default)** — a small reminder card using your VS Code theme colors, thin-stroke SVG icons for eye / water drop / walker. The eye break shows a large seconds counter and a slim progress bar.
+- **`pixel`** — a 160×120 animated pixel-art scene with 9 pixelfx effects, gradient background + stars + drifting light motes. Enable via `healthGuard.appearance` in Settings; the **Xem thử hiệu ứng** command always opens in this mode.
+
+---
+
+## Settings (Settings → search `healthGuard`)
+
+| Key | Default | Meaning |
 | --- | --- | --- |
-| `eyeGuard.enabled` | `true` | Bật/tắt toàn bộ extension |
-| `eyeGuard.startPaused` | `false` | Mỗi lần mở VS Code thì bắt đầu ở trạng thái tạm dừng |
-| `eyeGuard.onlyWhenFocused` | `true` | Chỉ nhắc khi cửa sổ VS Code đang được chọn |
-| `eyeGuard.sound` | `true` | Chuông nhẹ khi mở/hoàn tất (tổng hợp bằng WebAudio) |
-| `eyeGuard.focusOnReminder` | `true` | Tự chuyển focus sang bảng nhắc nhở |
-| `eyeGuard.appearance` | `clean` | `clean` (tối giản, theo theme VS Code) hoặc `pixel` (pixel art pixelfx) |
-| `eyeGuard.popupStyle` | `panel` | `panel` (bảng nhắc nhở) hoặc `notification` (thông báo nhỏ) cho nước/đi bộ |
-| `eyeGuard.snoozeMinutes` | `5` | Số phút khi bấm “Nhắc lại sau …” |
-| `eyeGuard.eyeBreak.enabled` | `true` | Bật nhắc 20-20-20 |
-| `eyeGuard.eyeBreak.intervalMinutes` | `20` | Số phút giữa hai lần nghỉ mắt |
-| `eyeGuard.eyeBreak.durationSeconds` | `20` | Số giây đếm ngược mỗi lần nghỉ |
-| `eyeGuard.eyeBreak.effect` | `eyeball` | `eyeball` / `halo` / `heal` (chỉ khi appearance = `pixel`) |
-| `eyeGuard.eyeBreak.message` | … | Lời nhắc hiển thị |
-| `eyeGuard.water.enabled` | `true` | Bật nhắc uống nước |
-| `eyeGuard.water.intervalMinutes` | `45` | Số phút giữa hai lần nhắc |
-| `eyeGuard.water.effect` | `water-orb` | `fountain` / `potion` / `water-orb` (chỉ khi appearance = `pixel`) |
-| `eyeGuard.water.message` | … | Lời nhắc uống nước |
-| `eyeGuard.walk.enabled` | `true` | Bật nhắc đi bộ |
-| `eyeGuard.walk.intervalMinutes` | `90` | Số phút giữa hai lần nhắc |
-| `eyeGuard.walk.effect` | `bird` | `frog` / `bird` / `butterfly` (chỉ khi appearance = `pixel`) |
-| `eyeGuard.walk.message` | … | Lời nhắc đi bộ |
+| `healthGuard.enabled` | `true` | Master on/off switch |
+| `healthGuard.startPaused` | `false` | Start paused every time VS Code launches |
+| `healthGuard.onlyWhenFocused` | `true` | Only remind while the VS Code window is focused |
+| `healthGuard.sound` | `true` | Soft chime on open/complete (synthesized with WebAudio) |
+| `healthGuard.focusOnReminder` | `true` | Auto-focus the reminder panel |
+| `healthGuard.appearance` | `clean` | `clean` (minimal, theme-native) or `pixel` (pixelfx pixel art) |
+| `healthGuard.popupStyle` | `panel` | `panel` (reminder panel) or `notification` (small toast) for water/walk |
+| `healthGuard.snoozeMinutes` | `5` | Minutes for "Nhắc lại sau …" |
+| `healthGuard.checkUpdates` | `true` | Auto-check GitHub Releases (max once per 24 h); manual check via command |
+| `healthGuard.eyeBreak.enabled` | `true` | Enable 20-20-20 reminders |
+| `healthGuard.eyeBreak.intervalMinutes` | `20` | Minutes between eye breaks |
+| `healthGuard.eyeBreak.durationSeconds` | `20` | Countdown seconds per break |
+| `healthGuard.eyeBreak.effect` | `eyeball` | `eyeball` / `halo` / `heal` (pixel mode only) |
+| `healthGuard.eyeBreak.message` | … | Reminder text shown on the panel |
+| `healthGuard.water.enabled` | `true` | Enable water reminders |
+| `healthGuard.water.intervalMinutes` | `45` | Minutes between reminders |
+| `healthGuard.water.effect` | `water-orb` | `fountain` / `potion` / `water-orb` (pixel mode only) |
+| `healthGuard.water.message` | … | Water reminder text |
+| `healthGuard.walk.enabled` | `true` | Enable walk/stretch reminders |
+| `healthGuard.walk.intervalMinutes` | `90` | Minutes between reminders |
+| `healthGuard.walk.effect` | `bird` | `frog` / `bird` / `butterfly` (pixel mode only) |
+| `healthGuard.walk.message` | … | Walk reminder text |
 
-Thay đổi có hiệu lực ngay, không cần khởi động lại VS Code.
-
----
-
-## Lệnh (Command Palette — `Ctrl/Cmd+Shift+P`)
-
-Tìm “Eye Guard”:
-
-- `Eye Guard: Menu`
-- `Eye Guard: Bắt đầu nghỉ mắt 20-20-20`
-- `Eye Guard: Nhắc uống nước ngay`
-- `Eye Guard: Nhắc đi bộ / đi vệ sinh`
-- `Eye Guard: Tạm dừng nhắc nhở` / `Tiếp tục nhắc nhở`
-- `Eye Guard: Bật / tắt Eye Guard`
-- `Eye Guard: Mở cài đặt`
-- `Eye Guard: Xem thử hiệu ứng`
+Changes take effect immediately — no VS Code restart needed.
 
 ---
 
-## Cách hoạt động
+## Commands (Command Palette — `Ctrl/Cmd+Shift+P`)
+
+Search for "Health Guard":
+
+- `Health Guard: Menu`
+- `Health Guard: Bắt đầu nghỉ mắt 20-20-20`
+- `Health Guard: Nhắc uống nước ngay`
+- `Health Guard: Nhắc đi bộ / đi vệ sinh`
+- `Health Guard: Tạm dừng nhắc nhở` / `Tiếp tục nhắc nhở`
+- `Health Guard: Bật / tắt Health Guard`
+- `Health Guard: Mở cài đặt`
+- `Health Guard: Xem thử hiệu ứng`
+- `Health Guard: Kiểm tra cập nhật`
+
+---
+
+## How it works
 
 ```
-src/extension.ts     vòng đời, lệnh, thanh trạng thái, điều phối
-src/scheduler.ts     bộ hẹn giờ 1 giây, tạm dừng/hoãn, chỉ bắn khi cửa sổ đang focus
-src/panel.ts         webview panel + HTML/CSP, handshake ready → init
-src/webview/main.js  DOM, đếm ngược, nút bấm, chuông WebAudio
-src/webview/renderer.js  cảnh pixel 160×120 (chỉ tải khi appearance = pixel), gọi pixelfx
-vendor/pixelfx/      bản rút gọn của pixelfx (core + 9 hiệu ứng), giấy phép MIT
+src/extension.ts     lifecycle, commands, status bar, orchestration
+src/updater.ts       GitHub Releases check + in-place .vsix install
+src/scheduler.ts     1-second scheduler, pause/snooze, only fires while focused
+src/panel.ts         webview panel + HTML/CSP, ready → init handshake
+src/webview/main.js  panel DOM, countdown, buttons, WebAudio chime
+src/webview/renderer.js  160×120 pixel scene (only loaded when appearance = pixel)
+vendor/pixelfx/      trimmed pixelfx copy (core + 9 effects), MIT licensed
 ```
 
-- Bộ đếm giờ chạy trên `setInterval`, không phụ thuộc animation, nên lần nghỉ vẫn kết thúc đúng giờ
-  kể cả khi tab bị ẩn.
-- Nếu bạn rời máy (cửa sổ VS Code mất focus) và bật `onlyWhenFocused`, lời nhắc được dời lại 30 giây
-  thay vì bắn dồn.
-- Không có dữ liệu nào rời khỏi máy bạn. Không có tài khoản, không telemetry.
+- The countdown runs on `setInterval`, independent of animation, so a break still ends on time even when the tab is hidden.
+- If you leave the machine (VS Code window loses focus) and `onlyWhenFocused` is on, the reminder is postponed by 30 seconds instead of being dropped or stacked.
+- The pause state is persisted via `globalState`, so it survives VS Code restarts.
+- No data leaves your machine. No account, no telemetry.
 
-## Phát triển
+## Development
 
 ```bash
 npm install
 npm run build      # dist/extension.js + media/webview.js
-npm run watch      # build lại khi sửa
+npm run watch      # rebuild on change
 npm run typecheck  # tsc --noEmit
-npm run smoke      # render thử mọi hiệu ứng trong Node (không cần VS Code)
-npm run preview    # xuất ảnh PNG vào preview/ để xem hiệu ứng
-npm run package    # đóng gói .vsix
+npm run smoke      # render every effect in Node (no VS Code needed)
+npm run preview    # export PNGs into preview/ to inspect effects
+npm run package    # build health-guard-<version>.vsix
 ```
 
-## Giấy phép & ghi công
+Pushing to `main` (or a `v*` tag) triggers `.github/workflows/release.yml`, which builds the vsix and publishes a GitHub Release automatically — that's what the built-in updater checks.
 
-- Mã extension: MIT (xem `LICENSE`).
-- Hiệu ứng pixel art: [patch-gg/pixelfx](https://github.com/patch-gg/pixelfx), MIT.
-  Bản sao rút gọn nằm trong `vendor/pixelfx` kèm `LICENSE` và `NOTICE.md` gốc.
-  Một số hiệu ứng của pixelfx được chuyển thể từ các hiệu ứng MIT của Hugo Duprez và Hollow Crown —
-  xem `vendor/pixelfx/NOTICE.md`.
+## License & credits
+
+- Extension code: MIT (see `LICENSE`).
+- Pixel-art effects: [patch-gg/pixelfx](https://github.com/patch-gg/pixelfx), MIT.
+  A trimmed copy lives in `vendor/pixelfx` with the original `LICENSE` and `NOTICE.md`.
+  Some pixelfx effects are adapted from MIT-licensed works by Hugo Duprez and Hollow Crown —
+  see `vendor/pixelfx/NOTICE.md`.

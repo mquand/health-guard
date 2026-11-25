@@ -1,4 +1,4 @@
-// A small fake of the parts of the VS Code API Eye Guard touches, so the extension host code can be
+// A small fake of the parts of the VS Code API Health Guard touches, so the extension host code can be
 // exercised in plain Node (scripts/extension.test.mjs).
 
 export class Disposable {

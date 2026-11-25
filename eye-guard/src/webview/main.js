@@ -205,7 +205,7 @@ el.snooze.addEventListener("click", () => {
   post({ type: "snooze", minutes: payload?.snoozeMinutes || 0 });
   document.body.dataset.state = "snoozed";
   el.title.textContent = "Đã hoãn nhắc nhở";
-  el.subtitle.textContent = `Eye Guard sẽ nhắc lại sau ${payload?.snoozeMinutes || 0} phút.`;
+  el.subtitle.textContent = `Health Guard sẽ nhắc lại sau ${payload?.snoozeMinutes || 0} phút.`;
   el.countdown.hidden = true;
   el.done.disabled = true;
   el.snooze.disabled = true;

@@ -1,10 +1,17 @@
 # Changelog
 
+## 1.2.0
+
+- **Đổi tên extension: Eye Guard → Health Guard** — tên package, command (`healthGuard.*`),
+  cấu hình (`healthGuard.*`), status bar và toàn bộ text hiển thị. Lưu ý: cài đặt cũ dùng khoá
+  `eyeGuard.*` sẽ không được mang sang — cần đặt lại trong Settings.
+- Workflow release xuất file `health-guard-<version>.vsix`.
+
 ## 1.1.1
 
 - Thêm **kiểm tra cập nhật**: tự động so với GitHub Releases của `mquand/health-guard` (tối đa
-  một lần mỗi 24 giờ, tắt được qua `eyeGuard.checkUpdates`), nút **Cập nhật ngay** tải và cài
-  file `.vsix` mới trực tiếp trong VS Code. Lệnh thủ công: `Eye Guard: Kiểm tra cập nhật`.
+  một lần mỗi 24 giờ, tắt được qua `healthGuard.checkUpdates`), nút **Cập nhật ngay** tải và cài
+  file `.vsix` mới trực tiếp trong VS Code. Lệnh thủ công: `Health Guard: Kiểm tra cập nhật`.
 - Nút tạm dừng trên bảng nhắc nhở giờ hiển thị đúng trạng thái pause toàn cục ngay khi mở panel.
 - `package.json` bổ sung `repository` / `bugs` / `homepage` trỏ về GitHub.
 

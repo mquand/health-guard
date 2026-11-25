@@ -69,7 +69,7 @@ export class ReminderPanel {
     }
 
     const panel = vscode.window.createWebviewPanel(
-      "eyeGuard.reminder",
+      "healthGuard.reminder",
       payload.title,
       { viewColumn: vscode.ViewColumn.Active, preserveFocus },
       {
@@ -162,7 +162,7 @@ function renderHtml(webview: vscode.Webview, extensionUri: vscode.Uri): string {
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${csp} data:; style-src ${csp}; script-src ${csp};" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="${media("panel.css")}" />
-  <title>Eye Guard</title>
+  <title>Health Guard</title>
 </head>
 <body data-kind="eye" data-state="running" data-appearance="clean">
   <main class="card">
@@ -181,7 +181,7 @@ function renderHtml(webview: vscode.Webview, extensionUri: vscode.Uri): string {
           <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>
           <svg class="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.5v11l9-5.5-9-5.5Z"/></svg>
         </button>
-        <button class="icon-btn" id="btn-settings" title="Mở cài đặt Eye Guard" aria-label="Mở cài đặt Eye Guard">
+        <button class="icon-btn" id="btn-settings" title="Mở cài đặt Health Guard" aria-label="Mở cài đặt Health Guard">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 6h6M14 6h6M4 12h10M18 12h2M4 18h4M12 18h8"/><circle cx="12" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg>
         </button>
       </div>

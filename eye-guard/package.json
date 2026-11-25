@@ -1,9 +1,9 @@
 {
-  "name": "eye-guard",
-  "displayName": "Eye Guard — Bảo vệ mắt",
+  "name": "health-guard",
+  "displayName": "Health Guard — Bảo vệ mắt",
   "description": "Nhắc nhìn xa 20-20-20, uống nước và đứng dậy đi bộ bằng bảng nhắc nhở tối giản, tuỳ chọn hiệu ứng pixel art (pixelfx). Mọi thông số và từng chức năng đều chỉnh được trong Settings.",
-  "version": "1.1.1",
-  "publisher": "eye-guard",
+  "version": "1.2.0",
+  "publisher": "health-guard",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -36,85 +36,85 @@
   "contributes": {
     "commands": [
       {
-        "command": "eyeGuard.menu",
+        "command": "healthGuard.menu",
         "title": "Menu",
-        "category": "Eye Guard"
+        "category": "Health Guard"
       },
       {
-        "command": "eyeGuard.startEyeBreak",
+        "command": "healthGuard.startEyeBreak",
         "title": "Bắt đầu nghỉ mắt 20-20-20",
-        "category": "Eye Guard"
+        "category": "Health Guard"
       },
       {
-        "command": "eyeGuard.remindWater",
+        "command": "healthGuard.remindWater",
         "title": "Nhắc uống nước ngay",
-        "category": "Eye Guard"
+        "category": "Health Guard"
       },
       {
-        "command": "eyeGuard.remindWalk",
+        "command": "healthGuard.remindWalk",
         "title": "Nhắc đi bộ / đi vệ sinh",
-        "category": "Eye Guard"
+        "category": "Health Guard"
       },
       {
-        "command": "eyeGuard.pause",
+        "command": "healthGuard.pause",
         "title": "Tạm dừng nhắc nhở",
-        "category": "Eye Guard"
+        "category": "Health Guard"
       },
       {
-        "command": "eyeGuard.resume",
+        "command": "healthGuard.resume",
         "title": "Tiếp tục nhắc nhở",
-        "category": "Eye Guard"
+        "category": "Health Guard"
       },
       {
-        "command": "eyeGuard.toggle",
-        "title": "Bật / tắt Eye Guard",
-        "category": "Eye Guard"
+        "command": "healthGuard.toggle",
+        "title": "Bật / tắt Health Guard",
+        "category": "Health Guard"
       },
       {
-        "command": "eyeGuard.openSettings",
+        "command": "healthGuard.openSettings",
         "title": "Mở cài đặt",
-        "category": "Eye Guard"
+        "category": "Health Guard"
       },
       {
-        "command": "eyeGuard.previewEffect",
+        "command": "healthGuard.previewEffect",
         "title": "Xem thử hiệu ứng",
-        "category": "Eye Guard"
+        "category": "Health Guard"
       },
       {
-        "command": "eyeGuard.checkForUpdates",
+        "command": "healthGuard.checkForUpdates",
         "title": "Kiểm tra cập nhật",
-        "category": "Eye Guard"
+        "category": "Health Guard"
       }
     ],
     "configuration": {
-      "title": "Eye Guard",
+      "title": "Health Guard",
       "properties": {
-        "eyeGuard.enabled": {
+        "healthGuard.enabled": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Bật/tắt toàn bộ tiện ích. Tắt ở đây sẽ dừng mọi nhắc nhở."
         },
-        "eyeGuard.startPaused": {
+        "healthGuard.startPaused": {
           "type": "boolean",
           "default": false,
           "markdownDescription": "Khởi động VS Code ở trạng thái tạm dừng. Bấm vào thanh trạng thái để bật lại."
         },
-        "eyeGuard.onlyWhenFocused": {
+        "healthGuard.onlyWhenFocused": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Chỉ nhắc khi cửa sổ VS Code đang được chọn (tránh nhắc khi bạn đã rời máy)."
         },
-        "eyeGuard.sound": {
+        "healthGuard.sound": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Phát chuông nhẹ khi mở và khi hoàn tất nhắc nhở (dùng WebAudio, không cần tệp âm thanh)."
         },
-        "eyeGuard.focusOnReminder": {
+        "healthGuard.focusOnReminder": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Tự chuyển focus sang cửa sổ nhắc nhở khi mở."
         },
-        "eyeGuard.appearance": {
+        "healthGuard.appearance": {
           "type": "string",
           "enum": [
             "clean",
@@ -127,7 +127,7 @@
           "default": "clean",
           "markdownDescription": "Giao diện của bảng nhắc nhở. Chọn `pixel` nếu bạn muốn xem hiệu ứng pixel art; các mục **Hiệu ứng** bên dưới chỉ áp dụng cho giao diện này."
         },
-        "eyeGuard.popupStyle": {
+        "healthGuard.popupStyle": {
           "type": "string",
           "enum": [
             "panel",
@@ -140,38 +140,38 @@
           "default": "panel",
           "markdownDescription": "Kiểu hiển thị cho nhắc uống nước và đi bộ. Nhắc nghỉ mắt luôn dùng bảng nhắc nhở vì cần đếm ngược."
         },
-        "eyeGuard.snoozeMinutes": {
+        "healthGuard.snoozeMinutes": {
           "type": "number",
           "default": 5,
           "minimum": 1,
           "maximum": 120,
           "markdownDescription": "Số phút hoãn khi bấm **Nhắc lại sau …** trên bảng nhắc nhở."
         },
-        "eyeGuard.checkUpdates": {
+        "healthGuard.checkUpdates": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "Tự kiểm tra bản cập nhật mới trên GitHub Releases (tối đa một lần mỗi 24 giờ). Tắt để chỉ kiểm tra thủ công qua lệnh **Eye Guard: Kiểm tra cập nhật**."
+          "markdownDescription": "Tự kiểm tra bản cập nhật mới trên GitHub Releases (tối đa một lần mỗi 24 giờ). Tắt để chỉ kiểm tra thủ công qua lệnh **Health Guard: Kiểm tra cập nhật**."
         },
-        "eyeGuard.eyeBreak.enabled": {
+        "healthGuard.eyeBreak.enabled": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Bật nhắc **20-20-20**: cứ mỗi 20 phút, nhìn ra xa 6 m (20 feet) trong 20 giây."
         },
-        "eyeGuard.eyeBreak.intervalMinutes": {
+        "healthGuard.eyeBreak.intervalMinutes": {
           "type": "number",
           "default": 20,
           "minimum": 1,
           "maximum": 480,
           "markdownDescription": "Số phút giữa hai lần nghỉ mắt."
         },
-        "eyeGuard.eyeBreak.durationSeconds": {
+        "healthGuard.eyeBreak.durationSeconds": {
           "type": "number",
           "default": 20,
           "minimum": 5,
           "maximum": 300,
           "markdownDescription": "Số giây của mỗi lần nghỉ mắt (mặc định 20)."
         },
-        "eyeGuard.eyeBreak.effect": {
+        "healthGuard.eyeBreak.effect": {
           "type": "string",
           "enum": [
             "eyeball",
@@ -184,26 +184,26 @@
             "Vòng sáng chữa lành và trái tim bay lên (pixelfx: Heal)."
           ],
           "default": "eyeball",
-          "markdownDescription": "Hiệu ứng pixel art cho lần nghỉ mắt (chỉ dùng khi `eyeGuard.appearance` = `pixel`)."
+          "markdownDescription": "Hiệu ứng pixel art cho lần nghỉ mắt (chỉ dùng khi `healthGuard.appearance` = `pixel`)."
         },
-        "eyeGuard.eyeBreak.message": {
+        "healthGuard.eyeBreak.message": {
           "type": "string",
           "default": "Nhìn ra xa 6 mét (20 feet) trong 20 giây để mắt được nghỉ.",
           "markdownDescription": "Lời nhắc hiển thị trên bảng nghỉ mắt."
         },
-        "eyeGuard.water.enabled": {
+        "healthGuard.water.enabled": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Bật nhắc **uống nước** định kỳ."
         },
-        "eyeGuard.water.intervalMinutes": {
+        "healthGuard.water.intervalMinutes": {
           "type": "number",
           "default": 45,
           "minimum": 1,
           "maximum": 480,
           "markdownDescription": "Số phút giữa hai lần nhắc uống nước."
         },
-        "eyeGuard.water.effect": {
+        "healthGuard.water.effect": {
           "type": "string",
           "enum": [
             "fountain",
@@ -216,26 +216,26 @@
             "Quả cầu nước lơ lửng (pixelfx: Water orb)."
           ],
           "default": "water-orb",
-          "markdownDescription": "Hiệu ứng pixel art cho lời nhắc uống nước (chỉ dùng khi `eyeGuard.appearance` = `pixel`)."
+          "markdownDescription": "Hiệu ứng pixel art cho lời nhắc uống nước (chỉ dùng khi `healthGuard.appearance` = `pixel`)."
         },
-        "eyeGuard.water.message": {
+        "healthGuard.water.message": {
           "type": "string",
           "default": "Uống một ly nước nào! Cơ thể và đôi mắt đều cần nước.",
           "markdownDescription": "Lời nhắc uống nước."
         },
-        "eyeGuard.walk.enabled": {
+        "healthGuard.walk.enabled": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Bật nhắc **đứng dậy đi bộ / đi vệ sinh** định kỳ."
         },
-        "eyeGuard.walk.intervalMinutes": {
+        "healthGuard.walk.intervalMinutes": {
           "type": "number",
           "default": 90,
           "minimum": 1,
           "maximum": 480,
           "markdownDescription": "Số phút giữa hai lần nhắc đi bộ."
         },
-        "eyeGuard.walk.effect": {
+        "healthGuard.walk.effect": {
           "type": "string",
           "enum": [
             "frog",
@@ -248,9 +248,9 @@
             "Bướm lượn lấp lánh (pixelfx: Butterfly)."
           ],
           "default": "bird",
-          "markdownDescription": "Hiệu ứng pixel art cho lời nhắc đi bộ (chỉ dùng khi `eyeGuard.appearance` = `pixel`)."
+          "markdownDescription": "Hiệu ứng pixel art cho lời nhắc đi bộ (chỉ dùng khi `healthGuard.appearance` = `pixel`)."
         },
-        "eyeGuard.walk.message": {
+        "healthGuard.walk.message": {
           "type": "string",
           "default": "Đứng dậy, đi lại vài phút hoặc đi vệ sinh nhé. Ngồi lâu không tốt cho lưng và mắt.",
           "markdownDescription": "Lời nhắc đi bộ / đi vệ sinh."

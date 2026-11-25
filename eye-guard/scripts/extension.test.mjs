@@ -49,7 +49,7 @@ const status = testState.statusItems[0];
 check("status bar shows the next eye break", status.text === "$(eye) Nghỉ mắt · 20:00", status.text);
 
 // ---- the 20-20-20 panel
-await mock.commands.executeCommand("eyeGuard.startEyeBreak");
+await mock.commands.executeCommand("healthGuard.startEyeBreak");
 check("opens a webview panel", testState.panels.length === 1);
 const panel = testState.panels[0];
 check("panel title", panel.title === "Nghỉ mắt 20-20-20", panel.title);
@@ -79,7 +79,7 @@ check(
 );
 
 // ---- water panel
-await mock.commands.executeCommand("eyeGuard.remindWater");
+await mock.commands.executeCommand("healthGuard.remindWater");
 const waterPanel = testState.panels.at(-1);
 waterPanel.webview.receive({ type: "ready" });
 const waterInit = waterPanel.webview.sent.at(-1);
@@ -92,8 +92,8 @@ waterPanel.webview.receive({ type: "done" });
 check("water done closes the panel", waterPanel.disposed === true);
 
 // ---- notification style
-testHelpers.setConfig("eyeGuard.popupStyle", "notification");
-await mock.commands.executeCommand("eyeGuard.remindWalk");
+testHelpers.setConfig("healthGuard.popupStyle", "notification");
+await mock.commands.executeCommand("healthGuard.remindWalk");
 check(
   "notification style shows a message",
   testState.infoCalls.length === 1 && testState.infoCalls[0].message.includes("Đứng dậy"),
@@ -102,14 +102,14 @@ check(
 check("notification style opens no panel", testState.panels.every((p) => p.disposed));
 
 // ---- pause / resume
-await mock.commands.executeCommand("eyeGuard.pause");
+await mock.commands.executeCommand("healthGuard.pause");
 check("pause updates the status bar", status.text.includes("Tạm dừng"), status.text);
-check("pause is persisted", stored.get("eyeGuard.pauseState")?.paused === true);
-await mock.commands.executeCommand("eyeGuard.resume");
+check("pause is persisted", stored.get("healthGuard.pauseState")?.paused === true);
+await mock.commands.executeCommand("healthGuard.resume");
 check("resume clears the pause", !status.text.includes("Tạm dừng"), status.text);
 
 // ---- live config changes
-testHelpers.setConfig("eyeGuard.walk.enabled", false);
+testHelpers.setConfig("healthGuard.walk.enabled", false);
 check("disabled feature leaves the tooltip", !status.tooltip.includes("Đi bộ"), status.tooltip);
 
 // ---- preview command
@@ -117,7 +117,7 @@ testState.quickPickQueue.push({
   label: "Bình thuốc",
   choice: { kind: "water", id: "potion", label: "Bình thuốc", description: "" },
 });
-await mock.commands.executeCommand("eyeGuard.previewEffect");
+await mock.commands.executeCommand("healthGuard.previewEffect");
 const previewPanel = testState.panels.at(-1);
 previewPanel.webview.receive({ type: "ready" });
 const previewInit = previewPanel.webview.sent.at(-1);
@@ -132,8 +132,8 @@ previewPanel.webview.receive({ type: "done" });
 check("preview done just closes", previewPanel.disposed === true);
 
 // ---- master switch
-await mock.commands.executeCommand("eyeGuard.toggle");
-check("toggle writes the global setting", testState.config["eyeGuard.enabled"] === false);
+await mock.commands.executeCommand("healthGuard.toggle");
+check("toggle writes the global setting", testState.config["healthGuard.enabled"] === false);
 check("status bar shows the disabled state", status.text.includes("đang tắt"), status.text);
 
 // ---- cleanup
