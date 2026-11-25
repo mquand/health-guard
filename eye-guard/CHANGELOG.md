@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.1
+
+- Thêm **kiểm tra cập nhật**: tự động so với GitHub Releases của `mquand/health-guard` (tối đa
+  một lần mỗi 24 giờ, tắt được qua `eyeGuard.checkUpdates`), nút **Cập nhật ngay** tải và cài
+  file `.vsix` mới trực tiếp trong VS Code. Lệnh thủ công: `Eye Guard: Kiểm tra cập nhật`.
+- Nút tạm dừng trên bảng nhắc nhở giờ hiển thị đúng trạng thái pause toàn cục ngay khi mở panel.
+- `package.json` bổ sung `repository` / `bugs` / `homepage` trỏ về GitHub.
+
 ## 1.1.0
 
 - **Giao diện mới, mặc định tối giản**: bảng nhắc nhở nhỏ gọn theo màu theme VS Code, icon nét mảnh,

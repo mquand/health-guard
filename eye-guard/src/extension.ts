@@ -8,6 +8,7 @@ import {
   readConfig,
 } from "./config";
 import { type PauseState, Scheduler } from "./scheduler";
+import { checkForUpdates } from "./updater";
 import { ReminderPanel, type PanelHandlers, type ReminderPayload } from "./panel";
 
 const PAUSE_STATE_KEY = "eyeGuard.pauseState";
@@ -90,6 +91,10 @@ class EyeGuardController implements vscode.Disposable {
     this.scheduler.start();
     this.status.show();
     this.updateStatusBar();
+
+    // Check GitHub for a newer release once the UI is idle; unref'd so it never holds the process open.
+    const updateTimer = setTimeout(() => void checkForUpdates(this.context), 15_000);
+    (updateTimer as { unref?: () => void }).unref?.();
   }
 
   dispose(): void {
@@ -235,6 +240,7 @@ class EyeGuardController implements vscode.Disposable {
       preview,
       sound: config.sound,
       seed: Math.floor(Math.random() * 1000) + 1,
+      paused: this.scheduler.isPaused,
       appearance: config.appearance,
       footer: "Eye Guard · chỉnh thời gian, hiệu ứng và bật/tắt từng mục trong Settings",
       snoozeMinutes: preview ? 0 : config.snoozeMinutes,
@@ -379,6 +385,7 @@ class EyeGuardController implements vscode.Disposable {
     register("eyeGuard.toggle", () => this.toggleEnabled());
     register("eyeGuard.openSettings", () => this.openSettings());
     register("eyeGuard.previewEffect", () => this.previewEffect());
+    register("eyeGuard.checkForUpdates", () => checkForUpdates(this.context, { manual: true }));
   }
 
   private trigger(kind: ReminderKind): void {
@@ -468,6 +475,7 @@ class EyeGuardController implements vscode.Disposable {
     items.push(
       { label: "Khác", kind: vscode.QuickPickItemKind.Separator },
       { label: "$(settings-gear) Cài đặt Eye Guard", run: () => this.openSettings() },
+      { label: "$(cloud-download) Kiểm tra cập nhật", run: () => checkForUpdates(this.context, { manual: true }) },
       { label: "$(sparkle) Xem thử hiệu ứng pixel art", run: () => this.previewEffect() },
       {
         label: config.enabled ? "$(circle-slash) Tắt Eye Guard" : "$(check) Bật Eye Guard",

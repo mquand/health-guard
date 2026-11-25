@@ -43,7 +43,7 @@ const context = {
 
 ext.activate(context);
 
-check("registers the 9 commands", testState.commands.size === 9, [...testState.commands.keys()].join(","));
+check("registers the 10 commands", testState.commands.size === 10, [...testState.commands.keys()].join(","));
 check("creates the status bar item", testState.statusItems.length === 1);
 const status = testState.statusItems[0];
 check("status bar shows the next eye break", status.text === "$(eye) Nghỉ mắt · 20:00", status.text);

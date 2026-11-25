@@ -81,7 +81,7 @@ function init(next) {
   el.foot.textContent = next.footer;
   el.done.textContent = next.actionLabel;
   el.done.disabled = false;
-  setPaused(false);
+  setPaused(!!next.paused);
 
   el.snooze.hidden = !next.snoozeMinutes;
   el.snooze.disabled = false;

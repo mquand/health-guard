@@ -19,6 +19,8 @@ export interface ReminderPayload {
   doneTitle: string;
   doneSubtitle: string;
   sound: boolean;
+  /** Global pause state at open time, so the pause button shows the right icon. */
+  paused: boolean;
   seed: number;
   preview: boolean;
 }

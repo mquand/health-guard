@@ -19,7 +19,7 @@ Mọi thứ đều chỉnh được trong **Settings** và **bật/tắt riêng 
 ### Cách 1: cài từ file `.vsix` (nhanh nhất)
 
 ```bash
-code --install-extension eye-guard-1.1.0.vsix
+code --install-extension eye-guard-1.1.1.vsix
 ```
 
 Hoặc mở VS Code → **Extensions** → dấu `…` → **Install from VSIX…** → chọn file.

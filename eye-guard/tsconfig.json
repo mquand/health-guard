@@ -10,8 +10,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "sourceMap": false,
-    "skipLibCheck": true,
-    "outDir": "out"
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts"]
 }

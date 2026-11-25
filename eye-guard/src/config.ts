@@ -24,6 +24,7 @@ export interface EyeGuardConfig {
   appearance: Appearance;
   popupStyle: "panel" | "notification";
   snoozeMinutes: number;
+  checkUpdates: boolean;
   eyeBreak: EyeBreakConfig;
   water: FeatureConfig;
   walk: FeatureConfig;
@@ -50,6 +51,7 @@ export function readConfig(): EyeGuardConfig {
     appearance: c.get<string>("appearance", "clean") === "pixel" ? "pixel" : "clean",
     popupStyle: c.get<string>("popupStyle", "panel") === "notification" ? "notification" : "panel",
     snoozeMinutes: clampNumber(c.get<number>("snoozeMinutes", 5), 1, 120),
+    checkUpdates: c.get<boolean>("checkUpdates", true),
     eyeBreak: {
       ...feature(
         "eyeBreak",
