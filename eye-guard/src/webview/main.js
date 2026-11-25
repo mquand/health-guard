@@ -26,9 +26,12 @@ const el = {
   done: $("btn-done"),
   snooze: $("btn-snooze"),
   pause: $("btn-pause"),
-  settings: $("btn-settings"),
+  gear: $("btn-settings"),
   foot: $("foot"),
   canvas: $("fx"),
+  settings: $("settings"),
+  settingsScroll: $("settings-scroll"),
+  openSettingsFull: $("btn-open-settings"),
 };
 
 const ctx = el.canvas.getContext("2d", { alpha: false });
@@ -52,6 +55,7 @@ window.addEventListener("message", (event) => {
   if (!message || typeof message !== "object") return;
   if (message.type === "init") init(message.payload);
   if (message.type === "paused") setPaused(message.paused);
+  if (message.type === "config") applySettings(message.settings);
 });
 
 function setPaused(paused) {
@@ -92,6 +96,8 @@ function init(next) {
     el.secs.textContent = String(Math.ceil(durationMs / 1000));
     el.fill.style.width = "100%";
   }
+
+  applySettings(next.settings);
 
   stopLoop();
   if (pixel) {
@@ -212,7 +218,182 @@ el.snooze.addEventListener("click", () => {
 });
 
 el.pause.addEventListener("click", () => post({ type: "pause" }));
-el.settings.addEventListener("click", () => post({ type: "settings" }));
+el.gear.addEventListener("click", () => {
+  const open = el.settings.hidden;
+  el.settings.hidden = !open;
+  el.settings.classList.toggle("open", open);
+  el.gear.setAttribute("aria-expanded", String(open));
+});
+el.openSettingsFull?.addEventListener("click", () => post({ type: "settings" }));
+
+// ---- settings drawer: the full healthGuard config, editable without leaving the panel ----
+
+const EFFECT_OPTIONS = {
+  eye: [
+    ["eyeball", "Nhãn cầu"],
+    ["halo", "Hào quang"],
+    ["heal", "Chữa lành"],
+    ["fish-school", "Đàn cá"],
+    ["jellyfish", "Sứa"],
+    ["sleep", "Ngủ say"],
+  ],
+  water: [
+    ["fountain", "Đài phun nước"],
+    ["potion", "Bình thuốc"],
+    ["water-orb", "Quả cầu nước"],
+    ["bubbles", "Bọt khí"],
+    ["waterfall", "Thác nước"],
+    ["drip", "Giọt nước"],
+    ["rain-splash", "Mưa rơi"],
+  ],
+  walk: [
+    ["frog", "Ếch nhảy"],
+    ["bird", "Chim sẻ"],
+    ["butterfly", "Bướm"],
+    ["snake", "Rắn trườn"],
+    ["slime", "Slime nhảy"],
+    ["wisp", "Đom lửa"],
+    ["falling-leaves", "Lá rơi"],
+    ["healing-bloom", "Hoa nở"],
+  ],
+};
+
+const SETTINGS_SCHEMA = [
+  {
+    group: "Chung",
+    items: [
+      { path: "enabled", label: "Bật Health Guard", type: "bool" },
+      { path: "startPaused", label: "Khởi động ở trạng thái tạm dừng", type: "bool" },
+      { path: "onlyWhenFocused", label: "Chỉ nhắc khi cửa sổ đang focus", type: "bool" },
+      { path: "sound", label: "Chuông nhẹ khi mở / kết thúc", type: "bool" },
+      { path: "focusOnReminder", label: "Tự focus bảng nhắc nhở", type: "bool" },
+      {
+        path: "appearance",
+        label: "Giao diện bảng nhắc",
+        type: "select",
+        options: [
+          ["clean", "Tối giản (theo theme)"],
+          ["pixel", "Pixel art"],
+        ],
+      },
+      {
+        path: "popupStyle",
+        label: "Kiểu nhắc nước / đi bộ",
+        type: "select",
+        options: [
+          ["panel", "Bảng nhắc nhở"],
+          ["notification", "Thông báo nhỏ"],
+        ],
+      },
+      { path: "snoozeMinutes", label: "Hoãn nhắc lại (phút)", type: "number", min: 1, max: 120 },
+      { path: "checkUpdates", label: "Tự kiểm tra cập nhật (tối đa 1 lần/24h)", type: "bool" },
+    ],
+  },
+  {
+    group: "Nghỉ mắt 20-20-20",
+    items: [
+      { path: "eyeBreak.enabled", label: "Bật nhắc nghỉ mắt", type: "bool" },
+      { path: "eyeBreak.intervalMinutes", label: "Cứ mỗi (phút)", type: "number", min: 1, max: 480 },
+      { path: "eyeBreak.durationSeconds", label: "Thời gian nghỉ (giây)", type: "number", min: 5, max: 300 },
+      { path: "eyeBreak.effect", label: "Hiệu ứng pixel", type: "select", options: EFFECT_OPTIONS.eye },
+      { path: "eyeBreak.message", label: "Lời nhắc", type: "text" },
+    ],
+  },
+  {
+    group: "Uống nước",
+    items: [
+      { path: "water.enabled", label: "Bật nhắc uống nước", type: "bool" },
+      { path: "water.intervalMinutes", label: "Cứ mỗi (phút)", type: "number", min: 1, max: 480 },
+      { path: "water.effect", label: "Hiệu ứng pixel", type: "select", options: EFFECT_OPTIONS.water },
+      { path: "water.message", label: "Lời nhắc", type: "text" },
+    ],
+  },
+  {
+    group: "Đi bộ / vận động",
+    items: [
+      { path: "walk.enabled", label: "Bật nhắc đi bộ", type: "bool" },
+      { path: "walk.intervalMinutes", label: "Cứ mỗi (phút)", type: "number", min: 1, max: 480 },
+      { path: "walk.effect", label: "Hiệu ứng pixel", type: "select", options: EFFECT_OPTIONS.walk },
+      { path: "walk.message", label: "Lời nhắc", type: "text" },
+    ],
+  },
+];
+
+const settingControls = new Map(); // path -> input element
+
+function getPath(obj, path) {
+  return path.split(".").reduce((o, k) => (o == null ? o : o[k]), obj);
+}
+
+function buildSettings() {
+  if (!el.settingsScroll || el.settingsScroll.childElementCount) return;
+  for (const group of SETTINGS_SCHEMA) {
+    const section = document.createElement("section");
+    section.className = "s-group";
+    const title = document.createElement("h2");
+    title.className = "s-group-title";
+    title.textContent = group.group;
+    section.appendChild(title);
+
+    for (const item of group.items) {
+      const row = document.createElement("label");
+      row.className = "s-row";
+      const caption = document.createElement("span");
+      caption.className = "s-label";
+      caption.textContent = item.label;
+      row.appendChild(caption);
+
+      let input;
+      if (item.type === "bool") {
+        input = document.createElement("input");
+        input.type = "checkbox";
+        input.className = "s-check";
+      } else if (item.type === "select") {
+        input = document.createElement("select");
+        input.className = "s-input";
+        for (const [value, label] of item.options) {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = label;
+          input.appendChild(option);
+        }
+      } else {
+        input = document.createElement("input");
+        input.type = item.type === "number" ? "number" : "text";
+        input.className = "s-input";
+        if (item.type === "number") {
+          input.min = item.min;
+          input.max = item.max;
+        }
+      }
+      input.dataset.path = item.path;
+      input.addEventListener("change", () => {
+        const value =
+          item.type === "bool"
+            ? input.checked
+            : item.type === "number"
+              ? Number(input.value)
+              : input.value;
+        post({ type: "setConfig", path: item.path, value });
+      });
+      settingControls.set(item.path, input);
+      row.appendChild(input);
+      section.appendChild(row);
+    }
+    el.settingsScroll.appendChild(section);
+  }
+}
+
+function applySettings(settings) {
+  if (!settings) return;
+  buildSettings();
+  for (const [path, input] of settingControls) {
+    const value = getPath(settings, path);
+    if (value === undefined) continue;
+    if (input.type === "checkbox") input.checked = !!value;
+    else input.value = String(value);
+  }
+}
 
 window.addEventListener("keydown", (event) => {
   if (event.key === "Escape") post({ type: "close" });

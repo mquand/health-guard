@@ -91,6 +91,17 @@ check("water uses the water orb", waterInit?.payload.effect === "water-orb");
 waterPanel.webview.receive({ type: "done" });
 check("water done closes the panel", waterPanel.disposed === true);
 
+// ---- settings drawer writes
+waterPanel.webview.receive({ type: "ready" });
+waterPanel.webview.receive({ type: "setConfig", path: "water.intervalMinutes", value: 60 });
+check(
+  "setConfig persists the value",
+  testState.config["healthGuard.water.intervalMinutes"] === 60,
+  JSON.stringify(testState.config["healthGuard.water.intervalMinutes"])
+);
+waterPanel.webview.receive({ type: "setConfig", path: "not.a.real.key", value: 1 });
+check("setConfig rejects unknown paths", !("healthGuard.not.a.real.key" in testState.config));
+
 // ---- notification style
 testHelpers.setConfig("healthGuard.popupStyle", "notification");
 await mock.commands.executeCommand("healthGuard.remindWalk");

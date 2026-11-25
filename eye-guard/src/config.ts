@@ -89,6 +89,35 @@ export function featureOf(config: EyeGuardConfig, kind: ReminderKind): FeatureCo
   return kind === "eye" ? config.eyeBreak : kind === "water" ? config.water : config.walk;
 }
 
+/**
+ * Settings the reminder panel is allowed to write, mapped to their value type. Paths are relative to the
+ * `healthGuard` section (e.g. "eyeBreak.intervalMinutes"). Anything not listed is rejected.
+ */
+export const SETTABLE_PATHS: Record<string, "boolean" | "number" | "string"> = {
+  enabled: "boolean",
+  startPaused: "boolean",
+  onlyWhenFocused: "boolean",
+  sound: "boolean",
+  focusOnReminder: "boolean",
+  appearance: "string",
+  popupStyle: "string",
+  snoozeMinutes: "number",
+  checkUpdates: "boolean",
+  "eyeBreak.enabled": "boolean",
+  "eyeBreak.intervalMinutes": "number",
+  "eyeBreak.durationSeconds": "number",
+  "eyeBreak.effect": "string",
+  "eyeBreak.message": "string",
+  "water.enabled": "boolean",
+  "water.intervalMinutes": "number",
+  "water.effect": "string",
+  "water.message": "string",
+  "walk.enabled": "boolean",
+  "walk.intervalMinutes": "number",
+  "walk.effect": "string",
+  "walk.message": "string",
+};
+
 function clampNumber(value: number, min: number, max: number): number {
   if (!Number.isFinite(value)) return min;
   return Math.min(max, Math.max(min, value));

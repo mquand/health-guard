@@ -57,14 +57,14 @@ Click it to open the quick menu:
 | Tạm dừng 30 phút / đến khi bật lại | Pause reminders for meetings, presentations… |
 | Cài đặt Health Guard | Opens filtered Settings |
 | Kiểm tra cập nhật | Manually check GitHub Releases for a new version |
-| Xem thử hiệu ứng pixel art | Preview all 9 effects (always in pixel mode) |
+| Xem thử hiệu ứng pixel art | Preview all 21 effects (always in pixel mode) |
 
 On the reminder panel you can:
 
 - **Đã nghỉ xong / Đã uống nước / Đã đi bộ** — confirm and close.
 - **Nhắc lại sau N phút** — snooze this one (N is configurable, default 5).
+- **⛭ Settings gear** — opens a full settings drawer right inside the panel: toggle each reminder, change intervals, pick pixel effects, appearance, sounds — no need to open the Settings tab. **Mở Settings đầy đủ** at the bottom still jumps to native Settings.
 - **Tạm dừng** — the two-bar icon at the top right pauses all reminders for 30 minutes.
-- **Cài đặt** — the sliders icon opens Settings.
 - **Esc** — close the panel.
 
 ---
@@ -72,7 +72,7 @@ On the reminder panel you can:
 ## Appearance
 
 - **`clean` (default)** — a small reminder card using your VS Code theme colors, thin-stroke SVG icons for eye / water drop / walker. The eye break shows a large seconds counter and a slim progress bar.
-- **`pixel`** — a 160×120 animated pixel-art scene with 9 pixelfx effects, gradient background + stars + drifting light motes. Enable via `healthGuard.appearance` in Settings; the **Xem thử hiệu ứng** command always opens in this mode.
+- **`pixel`** — a 160×120 animated pixel-art scene with 21 pixelfx effects, gradient background + stars + drifting light motes. Enable via `healthGuard.appearance` in Settings; the **Xem thử hiệu ứng** command always opens in this mode.
 
 ---
 
@@ -92,15 +92,15 @@ On the reminder panel you can:
 | `healthGuard.eyeBreak.enabled` | `true` | Enable 20-20-20 reminders |
 | `healthGuard.eyeBreak.intervalMinutes` | `20` | Minutes between eye breaks |
 | `healthGuard.eyeBreak.durationSeconds` | `20` | Countdown seconds per break |
-| `healthGuard.eyeBreak.effect` | `eyeball` | `eyeball` / `halo` / `heal` (pixel mode only) |
+| `healthGuard.eyeBreak.effect` | `eyeball` | `eyeball` / `halo` / `heal` / `fish-school` / `jellyfish` / `sleep` (pixel mode only) |
 | `healthGuard.eyeBreak.message` | … | Reminder text shown on the panel |
 | `healthGuard.water.enabled` | `true` | Enable water reminders |
 | `healthGuard.water.intervalMinutes` | `45` | Minutes between reminders |
-| `healthGuard.water.effect` | `water-orb` | `fountain` / `potion` / `water-orb` (pixel mode only) |
+| `healthGuard.water.effect` | `water-orb` | `fountain` / `potion` / `water-orb` / `bubbles` / `waterfall` / `drip` / `rain-splash` (pixel mode only) |
 | `healthGuard.water.message` | … | Water reminder text |
 | `healthGuard.walk.enabled` | `true` | Enable walk/stretch reminders |
 | `healthGuard.walk.intervalMinutes` | `90` | Minutes between reminders |
-| `healthGuard.walk.effect` | `bird` | `frog` / `bird` / `butterfly` (pixel mode only) |
+| `healthGuard.walk.effect` | `bird` | `frog` / `bird` / `butterfly` / `snake` / `slime` / `wisp` / `falling-leaves` / `healing-bloom` (pixel mode only) |
 | `healthGuard.walk.message` | … | Walk reminder text |
 
 Changes take effect immediately — no VS Code restart needed.
@@ -132,7 +132,7 @@ src/scheduler.ts     1-second scheduler, pause/snooze, only fires while focused
 src/panel.ts         webview panel + HTML/CSP, ready → init handshake
 src/webview/main.js  panel DOM, countdown, buttons, WebAudio chime
 src/webview/renderer.js  160×120 pixel scene (only loaded when appearance = pixel)
-vendor/pixelfx/      trimmed pixelfx copy (core + 9 effects), MIT licensed
+vendor/pixelfx/      trimmed pixelfx copy (core + 21 effects), MIT licensed
 ```
 
 - The countdown runs on `setInterval`, independent of animation, so a break still ends on time even when the tab is hidden.

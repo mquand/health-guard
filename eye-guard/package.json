@@ -176,12 +176,18 @@
           "enum": [
             "eyeball",
             "halo",
-            "heal"
+            "heal",
+            "fish-school",
+            "jellyfish",
+            "sleep"
           ],
           "enumDescriptions": [
             "Nhãn cầu pixel art đảo mắt và chớp (pixelfx: Eyeball).",
             "Vòng hào quang vàng trên đầu nhân vật (pixelfx: Halo).",
-            "Vòng sáng chữa lành và trái tim bay lên (pixelfx: Heal)."
+            "Vòng sáng chữa lành và trái tim bay lên (pixelfx: Heal).",
+            "Đàn cá bơi lội — nhìn ra xa thư giãn (pixelfx: Fish school).",
+            "Sứa trong suốt nhấp nhô nhẹ nhàng (pixelfx: Jellyfish).",
+            "Nhân vật ngủ say, chữ Z bay lên (pixelfx: Sleep)."
           ],
           "default": "eyeball",
           "markdownDescription": "Hiệu ứng pixel art cho lần nghỉ mắt (chỉ dùng khi `healthGuard.appearance` = `pixel`)."
@@ -208,12 +214,20 @@
           "enum": [
             "fountain",
             "potion",
-            "water-orb"
+            "water-orb",
+            "bubbles",
+            "waterfall",
+            "drip",
+            "rain-splash"
           ],
           "enumDescriptions": [
             "Đài phun nước pixel art (pixelfx: Fountain).",
             "Bình thuốc phát sáng (pixelfx: Potion).",
-            "Quả cầu nước lơ lửng (pixelfx: Water orb)."
+            "Quả cầu nước lơ lửng (pixelfx: Water orb).",
+            "Bọt khí nổi lên từ đáy (pixelfx: Bubbles).",
+            "Thác nước đổ xuống hồ (pixelfx: Waterfall).",
+            "Giọt nước rơi xuống vũng (pixelfx: Drip).",
+            "Mưa rơi xuống vũng nước (pixelfx: Rain splash)."
           ],
           "default": "water-orb",
           "markdownDescription": "Hiệu ứng pixel art cho lời nhắc uống nước (chỉ dùng khi `healthGuard.appearance` = `pixel`)."
@@ -240,12 +254,22 @@
           "enum": [
             "frog",
             "bird",
-            "butterfly"
+            "butterfly",
+            "snake",
+            "slime",
+            "wisp",
+            "falling-leaves",
+            "healing-bloom"
           ],
           "enumDescriptions": [
             "Chú ếch nhảy bắt ruồi (pixelfx: Frog).",
             "Chim sẻ vỗ cánh (pixelfx: Bird).",
-            "Bướm lượn lấp lánh (pixelfx: Butterfly)."
+            "Bướm lượn lấp lánh (pixelfx: Butterfly).",
+            "Rắn trườn trên mặt đất (pixelfx: Snake).",
+            "Slime nhảy lò cò (pixelfx: Slime).",
+            "Đom lửa bay lượn (pixelfx: Wisp).",
+            "Lá vàng rơi trong gió (pixelfx: Falling leaves).",
+            "Hoa nở với trái tim ánh sáng (pixelfx: Healing bloom)."
           ],
           "default": "bird",
           "markdownDescription": "Hiệu ứng pixel art cho lời nhắc đi bộ (chỉ dùng khi `healthGuard.appearance` = `pixel`)."

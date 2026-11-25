@@ -41,14 +41,14 @@ Khi code hàng giờ liên tục:
 - **`clean` (mặc định)** — thẻ nhỏ theo theme VS Code (sáng/tối đều hợp), icon SVG nét mảnh, số đếm ngược lớn.
 - **`pixel`** — cảnh pixel art 160×120 động nhờ [pixelfx](https://github.com/patch-gg/pixelfx) (MIT), nền gradient + sao + bụi sáng trôi nổi.
 
-### 4. Chín hiệu ứng pixel art
+### 4. Hai mươi mốt hiệu ứng pixel art
 Chọn hiệu ứng riêng cho từng loại nhắc, hoặc xem thử tất cả bằng một lệnh:
 
 | Nhắc | Hiệu ứng |
 | :--- | :--- |
-| Nghỉ mắt | `eyeball` · `halo` · `heal` |
-| Uống nước | `water-orb` · `fountain` · `potion` |
-| Đi bộ | `bird` · `frog` · `butterfly` |
+| Nghỉ mắt | `eyeball` · `halo` · `heal` · `fish-school` · `jellyfish` · `sleep` |
+| Uống nước | `water-orb` · `fountain` · `potion` · `bubbles` · `waterfall` · `drip` · `rain-splash` |
+| Đi bộ | `bird` · `frog` · `butterfly` · `snake` · `slime` · `wisp` · `falling-leaves` · `healing-bloom` |
 
 ### 5. Lên lịch thông minh, không làm phiền
 - **Theo focus**: hoãn nhắc khi cửa sổ VS Code không được chọn (`healthGuard.onlyWhenFocused`).
@@ -86,15 +86,15 @@ Mở `Settings` (`Cmd + ,` / `Ctrl + ,`) rồi tìm `healthGuard`:
 | `healthGuard.eyeBreak.enabled` | `true` | Bật nhắc 20-20-20 |
 | `healthGuard.eyeBreak.intervalMinutes` | `20` | Số phút giữa hai lần nghỉ mắt |
 | `healthGuard.eyeBreak.durationSeconds` | `20` | Số giây đếm ngược mỗi lần nghỉ |
-| `healthGuard.eyeBreak.effect` | `eyeball` | `eyeball` / `halo` / `heal` (chỉ khi appearance = `pixel`) |
+| `healthGuard.eyeBreak.effect` | `eyeball` | `eyeball` / `halo` / `heal` / `fish-school` / `jellyfish` / `sleep` (chỉ khi appearance = `pixel`) |
 | `healthGuard.eyeBreak.message` | … | Lời nhắc hiển thị |
 | `healthGuard.water.enabled` | `true` | Bật nhắc uống nước |
 | `healthGuard.water.intervalMinutes` | `45` | Số phút giữa hai lần nhắc |
-| `healthGuard.water.effect` | `water-orb` | `fountain` / `potion` / `water-orb` (chỉ khi appearance = `pixel`) |
+| `healthGuard.water.effect` | `water-orb` | `fountain` / `potion` / `water-orb` / `bubbles` / `waterfall` / `drip` / `rain-splash` (chỉ khi appearance = `pixel`) |
 | `healthGuard.water.message` | … | Lời nhắc uống nước |
 | `healthGuard.walk.enabled` | `true` | Bật nhắc đi bộ |
 | `healthGuard.walk.intervalMinutes` | `90` | Số phút giữa hai lần nhắc |
-| `healthGuard.walk.effect` | `bird` | `frog` / `bird` / `butterfly` (chỉ khi appearance = `pixel`) |
+| `healthGuard.walk.effect` | `bird` | `frog` / `bird` / `butterfly` / `snake` / `slime` / `wisp` / `falling-leaves` / `healing-bloom` (chỉ khi appearance = `pixel`) |
 | `healthGuard.walk.message` | … | Lời nhắc đi bộ |
 
 Mọi thay đổi có hiệu lực ngay, không cần khởi động lại VS Code.
@@ -150,7 +150,7 @@ src/scheduler.ts          bộ hẹn giờ 1 giây: tạm dừng, hoãn, chỉ b
 src/panel.ts              webview panel, HTML + CSP, handshake ready → init
 src/webview/main.js       DOM, đếm ngược, nút bấm, chuông WebAudio
 src/webview/renderer.js   cảnh pixel 160×120 (chỉ tải khi appearance = pixel)
-vendor/pixelfx/           bản rút gọn của pixelfx (core + 9 hiệu ứng), MIT
+vendor/pixelfx/           bản rút gọn của pixelfx (core + 21 hiệu ứng), MIT
 ```
 
 - Bộ đếm giờ chạy trên `setInterval`, không phụ thuộc animation, nên lần nghỉ vẫn kết thúc đúng giờ kể cả khi tab bị ẩn.

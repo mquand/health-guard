@@ -5,6 +5,10 @@
 - **Đổi tên extension: Eye Guard → Health Guard** — tên package, command (`healthGuard.*`),
   cấu hình (`healthGuard.*`), status bar và toàn bộ text hiển thị. Lưu ý: cài đặt cũ dùng khoá
   `eyeGuard.*` sẽ không được mang sang — cần đặt lại trong Settings.
+- **Thêm 12 hiệu ứng pixel art mới** (tổng 21): nghỉ mắt có đàn cá, sứa, ngủ say; uống nước có
+  bọt khí, thác nước, giọt nước, mưa rơi; đi bộ có rắn, slime, đom lửa, lá rơi, hoa nở.
+- **Cài đặt nhanh ngay trong bảng nhắc nhở**: nút bánh răng mở khung cài đặt đầy đủ (bật/tắt từng
+  loại nhắc, khoảng thời gian, hiệu ứng, giao diện, âm thanh…) mà không cần mở tab Settings.
 - Workflow release xuất file `health-guard-<version>.vsix`.
 
 ## 1.1.1

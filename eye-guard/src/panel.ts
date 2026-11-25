@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import type { ReminderKind } from "./config";
+import type { EyeGuardConfig, ReminderKind } from "./config";
 
 export interface ReminderPayload {
   kind: ReminderKind;
@@ -21,6 +21,8 @@ export interface ReminderPayload {
   sound: boolean;
   /** Global pause state at open time, so the pause button shows the right icon. */
   paused: boolean;
+  /** Full healthGuard configuration for the built-in settings drawer. */
+  settings: EyeGuardConfig;
   seed: number;
   preview: boolean;
 }
@@ -30,12 +32,16 @@ export interface PanelHandlers {
   onSnooze(kind: ReminderKind, minutes: number): void;
   onPause(): void;
   onOpenSettings(): void;
+  onConfig?(path: string, value: unknown): void;
   onClose?(kind: ReminderKind): void;
 }
 
 interface WebviewMessage {
   type?: string;
   minutes?: number;
+  path?: string;
+  value?: unknown;
+  settings?: EyeGuardConfig;
 }
 
 /**
@@ -93,6 +99,11 @@ export class ReminderPanel {
     void ReminderPanel.current?.panel.webview.postMessage({ type: "paused", paused });
   }
 
+  /** Push a fresh config snapshot so the settings drawer reflects clamped/saved values. */
+  static postSettings(settings: EyeGuardConfig): void {
+    void ReminderPanel.current?.panel.webview.postMessage({ type: "config", settings });
+  }
+
   private constructor(
     private readonly panel: vscode.WebviewPanel,
     extensionUri: vscode.Uri,
@@ -130,6 +141,11 @@ export class ReminderPanel {
         break;
       case "settings":
         this.handlers.onOpenSettings();
+        break;
+      case "setConfig":
+        if (typeof message.path === "string") {
+          this.handlers.onConfig?.(message.path, message.value);
+        }
         break;
       case "close":
         this.panel.dispose();
@@ -181,7 +197,7 @@ function renderHtml(webview: vscode.Webview, extensionUri: vscode.Uri): string {
           <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>
           <svg class="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.5v11l9-5.5-9-5.5Z"/></svg>
         </button>
-        <button class="icon-btn" id="btn-settings" title="Mở cài đặt Health Guard" aria-label="Mở cài đặt Health Guard">
+        <button class="icon-btn" id="btn-settings" title="Cài đặt nhanh" aria-label="Cài đặt nhanh">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 6h6M14 6h6M4 12h10M18 12h2M4 18h4M12 18h8"/><circle cx="12" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg>
         </button>
       </div>
@@ -207,6 +223,13 @@ function renderHtml(webview: vscode.Webview, extensionUri: vscode.Uri): string {
     </div>
 
     <footer class="foot" id="foot"></footer>
+
+    <section class="settings" id="settings" hidden>
+      <div class="settings-scroll" id="settings-scroll"></div>
+      <button class="btn ghost settings-full" id="btn-open-settings" type="button">
+        Mở Settings đầy đủ
+      </button>
+    </section>
   </main>
   <script src="${media("webview.js")}"></script>
 </body>

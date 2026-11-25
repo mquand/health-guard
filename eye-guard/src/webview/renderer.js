@@ -27,11 +27,23 @@ import * as eyeball from "../../vendor/pixelfx/fx/critters/eyeball.js";
 import * as frog from "../../vendor/pixelfx/fx/critters/frog.js";
 import * as bird from "../../vendor/pixelfx/fx/critters/bird.js";
 import * as butterfly from "../../vendor/pixelfx/fx/critters/butterfly.js";
+import * as fishSchool from "../../vendor/pixelfx/fx/critters/fish-school.js";
+import * as jellyfish from "../../vendor/pixelfx/fx/critters/jellyfish.js";
+import * as snake from "../../vendor/pixelfx/fx/critters/snake.js";
+import * as slime from "../../vendor/pixelfx/fx/critters/slime.js";
+import * as wisp from "../../vendor/pixelfx/fx/critters/wisp.js";
 import * as halo from "../../vendor/pixelfx/fx/holy/halo.js";
 import * as heal from "../../vendor/pixelfx/fx/holy/heal.js";
 import * as fountain from "../../vendor/pixelfx/fx/water/fountain.js";
 import * as waterOrb from "../../vendor/pixelfx/fx/water/water-orb.js";
 import * as potion from "../../vendor/pixelfx/fx/pickups/potion.js";
+import * as bubbles from "../../vendor/pixelfx/fx/water/bubbles.js";
+import * as waterfall from "../../vendor/pixelfx/fx/water/waterfall.js";
+import * as drip from "../../vendor/pixelfx/fx/water/drip.js";
+import * as rainSplash from "../../vendor/pixelfx/fx/water/rain-splash.js";
+import * as fallingLeaves from "../../vendor/pixelfx/fx/weather/falling-leaves.js";
+import * as healingBloom from "../../vendor/pixelfx/fx/nature/healing-bloom.js";
+import * as sleep from "../../vendor/pixelfx/fx/status/sleep.js";
 
 export const WIDTH = 160;
 export const HEIGHT = 120;
@@ -40,12 +52,24 @@ const MODULES = {
   eyeball,
   halo,
   heal,
+  "fish-school": fishSchool,
+  jellyfish,
+  sleep,
   fountain,
   potion,
   "water-orb": waterOrb,
+  bubbles,
+  waterfall,
+  drip,
+  "rain-splash": rainSplash,
   frog,
   bird,
   butterfly,
+  snake,
+  slime,
+  wisp,
+  "falling-leaves": fallingLeaves,
+  "healing-bloom": healingBloom,
 };
 
 // Where each effect's origin sits in the frame, and which scene palette it belongs to.
@@ -53,12 +77,24 @@ const PLACEMENT = {
   eyeball: { x: 80, y: 98, kind: "eye", options: { hover: 34 } },
   halo: { x: 80, y: 104, kind: "eye" },
   heal: { x: 80, y: 106, kind: "eye" },
+  "fish-school": { x: 80, y: 64, kind: "eye" },
+  jellyfish: { x: 80, y: 58, kind: "eye" },
+  sleep: { x: 80, y: 104, kind: "eye" },
   fountain: { x: 80, y: 108, kind: "water" },
   potion: { x: 80, y: 94, kind: "water" },
   "water-orb": { x: 80, y: 104, kind: "water" },
+  bubbles: { x: 80, y: 104, kind: "water" },
+  waterfall: { x: 80, y: 110, kind: "water" },
+  drip: { x: 80, y: 92, kind: "water" },
+  "rain-splash": { x: 80, y: 84, kind: "water" },
   frog: { x: 80, y: 104, kind: "walk" },
   bird: { x: 80, y: 62, kind: "walk" },
   butterfly: { x: 80, y: 58, kind: "walk" },
+  snake: { x: 80, y: 104, kind: "walk" },
+  slime: { x: 80, y: 100, kind: "walk" },
+  wisp: { x: 80, y: 96, kind: "walk" },
+  "falling-leaves": { x: 80, y: 108, kind: "walk" },
+  "healing-bloom": { x: 80, y: 104, kind: "walk" },
 };
 
 export const EFFECT_IDS = Object.keys(PLACEMENT);

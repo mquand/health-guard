@@ -6,6 +6,7 @@ import {
   featureOf,
   onConfigChanged,
   readConfig,
+  SETTABLE_PATHS,
 } from "./config";
 import { type PauseState, Scheduler } from "./scheduler";
 import { checkForUpdates } from "./updater";
@@ -26,12 +27,24 @@ const EFFECT_CHOICES: EffectChoice[] = [
   { kind: "eye", id: "eyeball", label: "Nhãn cầu", description: "pixelfx · Eyeball — mắt pixel art đảo mắt, chớp mắt" },
   { kind: "eye", id: "halo", label: "Hào quang", description: "pixelfx · Halo — vòng sáng vàng trên đầu nhân vật" },
   { kind: "eye", id: "heal", label: "Chữa lành", description: "pixelfx · Heal — vòng sáng chữa lành, trái tim bay lên" },
+  { kind: "eye", id: "fish-school", label: "Đàn cá", description: "pixelfx · Fish school — đàn cá bơi, nhìn ra xa thư giãn" },
+  { kind: "eye", id: "jellyfish", label: "Sứa", description: "pixelfx · Jellyfish — sứa trong suốt nhấp nhô nhẹ nhàng" },
+  { kind: "eye", id: "sleep", label: "Ngủ say", description: "pixelfx · Sleep — nhân vật ngủ, chữ Z bay lên" },
   { kind: "water", id: "fountain", label: "Đài phun nước", description: "pixelfx · Fountain — đài phun nước pixel art" },
   { kind: "water", id: "potion", label: "Bình thuốc", description: "pixelfx · Potion — bình thuốc phát sáng, bong bóng nổi" },
   { kind: "water", id: "water-orb", label: "Quả cầu nước", description: "pixelfx · Water orb — quả cầu nước lơ lửng" },
+  { kind: "water", id: "bubbles", label: "Bọt khí", description: "pixelfx · Bubbles — bọt khí nổi lên từ đáy" },
+  { kind: "water", id: "waterfall", label: "Thác nước", description: "pixelfx · Waterfall — thác đổ xuống hồ, bọt nước tung" },
+  { kind: "water", id: "drip", label: "Giọt nước", description: "pixelfx · Drip — giọt nước rơi xuống vũng" },
+  { kind: "water", id: "rain-splash", label: "Mưa rơi", description: "pixelfx · Rain splash — mưa rơi xuống vũng nước" },
   { kind: "walk", id: "frog", label: "Ếch nhảy", description: "pixelfx · Frog — chú ếch nhảy bắt ruồi" },
   { kind: "walk", id: "bird", label: "Chim sẻ", description: "pixelfx · Bird — chim sẻ vỗ cánh" },
   { kind: "walk", id: "butterfly", label: "Bướm", description: "pixelfx · Butterfly — bướm lượn lấp lánh" },
+  { kind: "walk", id: "snake", label: "Rắn trườn", description: "pixelfx · Snake — rắn trườn trên mặt đất" },
+  { kind: "walk", id: "slime", label: "Slime nhảy", description: "pixelfx · Slime — slime bóng bẩy nhảy lò cò" },
+  { kind: "walk", id: "wisp", label: "Đom lửa", description: "pixelfx · Wisp — đom lửa bay hình số 8" },
+  { kind: "walk", id: "falling-leaves", label: "Lá rơi", description: "pixelfx · Falling leaves — lá vàng rơi trong gió" },
+  { kind: "walk", id: "healing-bloom", label: "Hoa nở", description: "pixelfx · Healing bloom — nụ hoa nở với trái tim ánh sáng" },
 ];
 
 const KIND_LABEL: Record<ReminderKind, string> = {
@@ -156,6 +169,7 @@ class EyeGuardController implements vscode.Disposable {
       onSnooze: (_kind, minutes) => this.onPanelSnooze(payload, minutes),
       onPause: () => this.pause(PAUSE_MENU_MINUTES),
       onOpenSettings: () => this.openSettings(),
+      onConfig: (path, value) => this.onConfig(path, value),
       onClose: () => this.updateStatusBar(),
     };
 
@@ -241,6 +255,7 @@ class EyeGuardController implements vscode.Disposable {
       sound: config.sound,
       seed: Math.floor(Math.random() * 1000) + 1,
       paused: this.scheduler.isPaused,
+      settings: config,
       appearance: config.appearance,
       footer: "Health Guard · chỉnh thời gian, hiệu ứng và bật/tắt từng mục trong Settings",
       snoozeMinutes: preview ? 0 : config.snoozeMinutes,
@@ -425,6 +440,22 @@ class EyeGuardController implements vscode.Disposable {
     void vscode.window.showInformationMessage(
       enabled ? "Health Guard đã bật. Nhắc nhở sẽ chạy theo cài đặt của bạn." : "Health Guard đã tắt."
     );
+  }
+
+  /** A settings-drawer write from the webview: whitelist the path, coerce the type, persist globally. */
+  private onConfig(path: string, value: unknown): void {
+    const type = SETTABLE_PATHS[path];
+    if (!type) return;
+
+    let next: unknown = value;
+    if (type === "boolean") next = value === true;
+    else if (type === "number") next = Number(value);
+    else if (type === "string") next = String(value ?? "");
+
+    void vscode.workspace
+      .getConfiguration(CONFIG_SECTION)
+      .update(path, next, vscode.ConfigurationTarget.Global)
+      .then(() => ReminderPanel.postSettings(readConfig()));
   }
 
   private openSettings(): void {
